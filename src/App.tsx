@@ -3,6 +3,8 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { CooperativeLayout } from "./components/CooperativeLayout";
+import { Dashboard } from "./pages/Dashboard";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
@@ -14,11 +16,26 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <CooperativeLayout>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/members" element={<Index />} />
+            <Route path="/roles" element={<Index />} />
+            <Route path="/cooperative" element={<Index />} />
+            <Route path="/templates" element={<Index />} />
+            <Route path="/accounts" element={<Index />} />
+            <Route path="/transactions" element={<Index />} />
+            <Route path="/budgets" element={<Index />} />
+            <Route path="/financial-reports" element={<Index />} />
+            <Route path="/activity-reports" element={<Index />} />
+            <Route path="/custom-reports" element={<Index />} />
+            <Route path="/user-settings" element={<Index />} />
+            <Route path="/system-settings" element={<Index />} />
+            <Route path="/notifications" element={<Index />} />
+            <Route path="/support" element={<Index />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </CooperativeLayout>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
