@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CooperativeLayout } from "./components/CooperativeLayout";
 import { Dashboard } from "./pages/Dashboard";
+import { MembersPage } from "./views/pages/MembersPage";
+import { RolesPage } from "./views/pages/RolesPage";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
@@ -19,8 +21,8 @@ const App = () => (
         <CooperativeLayout>
           <Routes>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/members" element={<Index />} />
-            <Route path="/roles" element={<Index />} />
+            <Route path="/members" element={<MembersPage />} />
+            <Route path="/roles" element={<RolesPage />} />
             <Route path="/cooperative" element={<Index />} />
             <Route path="/templates" element={<Index />} />
             <Route path="/accounts" element={<Index />} />
