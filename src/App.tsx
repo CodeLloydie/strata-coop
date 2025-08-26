@@ -7,6 +7,18 @@ import { CooperativeLayout } from "./components/CooperativeLayout";
 import { Dashboard } from "./pages/Dashboard";
 import { MembersPage } from "./views/pages/MembersPage";
 import { RolesPage } from "./views/pages/RolesPage";
+import { CooperativePage } from "./views/pages/CooperativePage";
+import { ServiceTemplatesPage } from "./views/pages/ServiceTemplatesPage";
+import { ChartOfAccountsPage } from "./views/pages/ChartOfAccountsPage";
+import { TransactionsPage } from "./views/pages/TransactionsPage";
+import { BudgetsPage } from "./views/pages/BudgetsPage";
+import { FinancialReportsPage } from "./views/pages/FinancialReportsPage";
+import { ActivityReportsPage } from "./views/pages/ActivityReportsPage";
+import { CustomReportsPage } from "./views/pages/CustomReportsPage";
+import { UserSettingsPage } from "./views/pages/UserSettingsPage";
+import { SystemSettingsPage } from "./views/pages/SystemSettingsPage";
+import { NotificationsPage } from "./views/pages/NotificationsPage";
+import { SupportPage } from "./views/pages/SupportPage";
 import { Welcome } from "./pages/Welcome";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
@@ -37,62 +49,62 @@ const App = () => (
           } />
           <Route path="/cooperative" element={
             <CooperativeLayout>
-              <Index />
+              <CooperativePage />
             </CooperativeLayout>
           } />
           <Route path="/templates" element={
             <CooperativeLayout>
-              <Index />
+              <ServiceTemplatesPage />
             </CooperativeLayout>
           } />
           <Route path="/accounts" element={
             <CooperativeLayout>
-              <Index />
+              <ChartOfAccountsPage />
             </CooperativeLayout>
           } />
           <Route path="/transactions" element={
             <CooperativeLayout>
-              <Index />
+              <TransactionsPage />
             </CooperativeLayout>
           } />
           <Route path="/budgets" element={
             <CooperativeLayout>
-              <Index />
+              <BudgetsPage />
             </CooperativeLayout>
           } />
           <Route path="/financial-reports" element={
             <CooperativeLayout>
-              <Index />
+              <FinancialReportsPage />
             </CooperativeLayout>
           } />
           <Route path="/activity-reports" element={
             <CooperativeLayout>
-              <Index />
+              <ActivityReportsPage />
             </CooperativeLayout>
           } />
           <Route path="/custom-reports" element={
             <CooperativeLayout>
-              <Index />
+              <CustomReportsPage />
             </CooperativeLayout>
           } />
           <Route path="/user-settings" element={
             <CooperativeLayout>
-              <Index />
+              <UserSettingsPage />
             </CooperativeLayout>
           } />
           <Route path="/system-settings" element={
             <CooperativeLayout>
-              <Index />
+              <SystemSettingsPage />
             </CooperativeLayout>
           } />
           <Route path="/notifications" element={
             <CooperativeLayout>
-              <Index />
+              <NotificationsPage />
             </CooperativeLayout>
           } />
           <Route path="/support" element={
             <CooperativeLayout>
-              <Index />
+              <SupportPage />
             </CooperativeLayout>
           } />
           <Route path="/" element={<Welcome />} />
