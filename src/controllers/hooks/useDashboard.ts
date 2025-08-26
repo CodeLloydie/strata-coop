@@ -7,8 +7,10 @@ import {
   FileText,
   Settings
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export function useDashboard() {
+  const navigate = useNavigate();
   const stats: DashboardStat[] = [
     {
       title: "Total Members",
@@ -69,7 +71,8 @@ export function useDashboard() {
   ];
 
   const handleQuickAction = (href: string) => {
-    console.log(`Navigate to ${href}`);
+    // Navigate to the specified route using React Router
+    navigate(href);
   };
 
   return {

@@ -22,12 +22,12 @@ import {
   User
 } from "lucide-react";
 
-const sidebarItems: SidebarItem[] = [
-  {
-    title: "Dashboard",
-    icon: LayoutDashboard,
-    href: "/",
-  },
+  const sidebarItems: SidebarItem[] = [
+    {
+      title: "Dashboard",
+      icon: LayoutDashboard,
+      href: "/dashboard",
+    },
   {
     title: "Members & Roles",
     icon: Users,
