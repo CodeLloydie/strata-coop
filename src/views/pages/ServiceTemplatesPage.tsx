@@ -1,10 +1,13 @@
+import { useState } from "react";
 import { BookOpen, Plus, Search, Filter } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { AddTemplateModal } from "@/views/components/ServiceTemplates/AddTemplateModal";
 
 export function ServiceTemplatesPage() {
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const templates = [
     { id: 1, name: "Savings Account", category: "Banking", status: "Active", usage: 234 },
     { id: 2, name: "Loan Application", category: "Credit", status: "Active", usage: 156 },
@@ -19,7 +22,7 @@ export function ServiceTemplatesPage() {
           <h1 className="text-3xl font-bold tracking-tight">Service Templates</h1>
           <p className="text-muted-foreground">Manage templates for cooperative services</p>
         </div>
-        <Button className="hover-scale">
+        <Button className="hover-scale" onClick={() => setIsAddModalOpen(true)}>
           <Plus className="mr-2 h-4 w-4" />
           New Template
         </Button>
@@ -77,6 +80,11 @@ export function ServiceTemplatesPage() {
           </div>
         </CardContent>
       </Card>
+
+      <AddTemplateModal 
+        open={isAddModalOpen} 
+        onOpenChange={setIsAddModalOpen} 
+      />
     </div>
   );
 }

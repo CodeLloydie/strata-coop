@@ -1,11 +1,14 @@
+import { useState } from "react";
 import { TrendingUp, Plus, Search, Filter, Target, AlertCircle } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { AddBudgetModal } from "@/views/components/Budgets/AddBudgetModal";
 
 export function BudgetsPage() {
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const budgets = [
     { 
       category: "Office Expenses", 
@@ -63,7 +66,7 @@ export function BudgetsPage() {
           <h1 className="text-3xl font-bold tracking-tight">Budgets & Allocations</h1>
           <p className="text-muted-foreground">Monitor spending and manage budget allocations</p>
         </div>
-        <Button className="hover-scale">
+        <Button className="hover-scale" onClick={() => setIsAddModalOpen(true)}>
           <Plus className="mr-2 h-4 w-4" />
           Create Budget
         </Button>
@@ -169,6 +172,11 @@ export function BudgetsPage() {
           );
         })}
       </div>
+
+      <AddBudgetModal 
+        open={isAddModalOpen} 
+        onOpenChange={setIsAddModalOpen} 
+      />
     </div>
   );
 }

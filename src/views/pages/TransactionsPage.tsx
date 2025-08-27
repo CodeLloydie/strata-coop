@@ -1,11 +1,14 @@
+import { useState } from "react";
 import { CreditCard, Plus, Search, Filter, Download, Eye } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { AddTransactionModal } from "@/views/components/Transactions/AddTransactionModal";
 
 export function TransactionsPage() {
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const transactions = [
     { 
       id: "TXN-001", 
@@ -65,7 +68,7 @@ export function TransactionsPage() {
             <Download className="mr-2 h-4 w-4" />
             Export
           </Button>
-          <Button className="hover-scale">
+          <Button className="hover-scale" onClick={() => setIsAddModalOpen(true)}>
             <Plus className="mr-2 h-4 w-4" />
             New Transaction
           </Button>
@@ -164,6 +167,11 @@ export function TransactionsPage() {
           </Table>
         </CardContent>
       </Card>
+
+      <AddTransactionModal 
+        open={isAddModalOpen} 
+        onOpenChange={setIsAddModalOpen} 
+      />
     </div>
   );
 }

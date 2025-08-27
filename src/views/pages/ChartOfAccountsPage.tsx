@@ -1,11 +1,14 @@
+import { useState } from "react";
 import { Receipt, Plus, Search, Filter, Edit, Trash2 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { AddAccountModal } from "@/views/components/ChartOfAccounts/AddAccountModal";
 
 export function ChartOfAccountsPage() {
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const accounts = [
     { id: "1001", name: "Cash on Hand", type: "Asset", category: "Current Assets", balance: "₱125,000.00" },
     { id: "1002", name: "Savings Account", type: "Asset", category: "Current Assets", balance: "₱850,000.00" },
@@ -33,7 +36,7 @@ export function ChartOfAccountsPage() {
           <h1 className="text-3xl font-bold tracking-tight">Chart of Accounts</h1>
           <p className="text-muted-foreground">Manage your accounting structure and accounts</p>
         </div>
-        <Button className="hover-scale">
+        <Button className="hover-scale" onClick={() => setIsAddModalOpen(true)}>
           <Plus className="mr-2 h-4 w-4" />
           Add Account
         </Button>
@@ -114,6 +117,11 @@ export function ChartOfAccountsPage() {
           </Table>
         </CardContent>
       </Card>
+
+      <AddAccountModal 
+        open={isAddModalOpen} 
+        onOpenChange={setIsAddModalOpen} 
+      />
     </div>
   );
 }
