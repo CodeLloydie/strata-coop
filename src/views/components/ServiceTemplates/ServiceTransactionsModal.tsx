@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, DollarSign, Calendar, User, FileText } from "lucide-react";
+import { Plus, DollarSign, Calendar, User, FileText, Receipt } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
+import { ReceiptModal } from "./ReceiptModal";
 
 interface Service {
   id: number;
@@ -37,6 +38,8 @@ interface ServiceTransactionsModalProps {
 export function ServiceTransactionsModal({ open, onOpenChange, service }: ServiceTransactionsModalProps) {
   const { toast } = useToast();
   const [showAddTransaction, setShowAddTransaction] = useState(false);
+  const [showReceipt, setShowReceipt] = useState(false);
+  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([
     { id: 1, memberName: "John Doe", amount: 5000, date: "2024-01-15", description: "Personal loan application", status: "Completed" },
     { id: 2, memberName: "Jane Smith", amount: 3000, date: "2024-01-20", description: "Emergency loan", status: "Pending" },
@@ -87,6 +90,11 @@ export function ServiceTransactionsModal({ open, onOpenChange, service }: Servic
   const pendingAmount = transactions
     .filter(t => t.status === "Pending")
     .reduce((sum, t) => sum + t.amount, 0);
+
+  const handleGenerateReceipt = (transaction: Transaction) => {
+    setSelectedTransaction(transaction);
+    setShowReceipt(true);
+  };
 
   if (!service) return null;
 
@@ -203,7 +211,7 @@ export function ServiceTransactionsModal({ open, onOpenChange, service }: Servic
                 </CardContent>
               </Card>
             ) : (
-              transactions.map((transaction) => (
+                transactions.map((transaction) => (
                 <Card key={transaction.id} className="hover-scale transition-all duration-200">
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between">
@@ -216,24 +224,35 @@ export function ServiceTransactionsModal({ open, onOpenChange, service }: Servic
                           <div className="text-sm text-muted-foreground">{transaction.description}</div>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <div className="font-medium flex items-center gap-1">
-                          <DollarSign className="h-4 w-4" />
-                          ₱{transaction.amount.toLocaleString()}
+                      <div className="flex items-center gap-3">
+                        <div className="text-right">
+                          <div className="font-medium flex items-center gap-1">
+                            <DollarSign className="h-4 w-4" />
+                            ₱{transaction.amount.toLocaleString()}
+                          </div>
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                            <Calendar className="h-4 w-4" />
+                            {new Date(transaction.date).toLocaleDateString()}
+                            <Badge 
+                              variant={
+                                transaction.status === "Completed" ? "default" :
+                                transaction.status === "Pending" ? "secondary" : "destructive"
+                              }
+                              className="ml-2"
+                            >
+                              {transaction.status}
+                            </Badge>
+                          </div>
                         </div>
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <Calendar className="h-4 w-4" />
-                          {new Date(transaction.date).toLocaleDateString()}
-                          <Badge 
-                            variant={
-                              transaction.status === "Completed" ? "default" :
-                              transaction.status === "Pending" ? "secondary" : "destructive"
-                            }
-                            className="ml-2"
-                          >
-                            {transaction.status}
-                          </Badge>
-                        </div>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleGenerateReceipt(transaction)}
+                          className="hover-scale"
+                        >
+                          <Receipt className="h-4 w-4 mr-1" />
+                          Receipt
+                        </Button>
                       </div>
                     </div>
                   </CardContent>
@@ -251,6 +270,13 @@ export function ServiceTransactionsModal({ open, onOpenChange, service }: Servic
           </Button>
         </DialogFooter>
       </DialogContent>
+      
+      <ReceiptModal
+        open={showReceipt}
+        onOpenChange={setShowReceipt}
+        service={service}
+        transaction={selectedTransaction}
+      />
     </Dialog>
   );
 }
