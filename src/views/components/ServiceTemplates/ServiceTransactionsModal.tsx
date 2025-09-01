@@ -10,9 +10,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import { ReceiptModal } from "./ReceiptModal";
+import { useTransactions } from "@/contexts/TransactionContext";
 
 interface Service {
-  id: number;
+  id: string;
   name: string;
   category: string;
   status: "Active" | "Draft";
@@ -21,7 +22,7 @@ interface Service {
 }
 
 interface Transaction {
-  id: number;
+  id: string;
   memberName: string;
   amount: number;
   date: string;
@@ -40,11 +41,21 @@ export function ServiceTransactionsModal({ open, onOpenChange, service }: Servic
   const [showAddTransaction, setShowAddTransaction] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
-  const [transactions, setTransactions] = useState<Transaction[]>([
-    { id: 1, memberName: "John Doe", amount: 5000, date: "2024-01-15", description: "Personal loan application", status: "Completed" },
-    { id: 2, memberName: "Jane Smith", amount: 3000, date: "2024-01-20", description: "Emergency loan", status: "Pending" },
-    { id: 3, memberName: "Bob Wilson", amount: 8000, date: "2024-01-25", description: "Business expansion loan", status: "Completed" },
-  ]);
+  
+  const { addTransaction, getServiceTransactions } = useTransactions();
+  
+  // Get transactions for this specific service
+  const serviceTransactions = getServiceTransactions(service?.id || "");
+  
+  // Convert to local transaction format for backward compatibility
+  const transactions = serviceTransactions.map(tx => ({
+    id: tx.id,
+    memberName: tx.memberName || "Unknown Member",
+    amount: parseFloat(tx.amount.replace(/[₱,]/g, "")),
+    date: tx.date,
+    description: tx.description,
+    status: tx.status as "Completed" | "Pending" | "Cancelled"
+  }));
 
   const [newTransaction, setNewTransaction] = useState({
     memberName: "",
@@ -64,23 +75,28 @@ export function ServiceTransactionsModal({ open, onOpenChange, service }: Servic
       return;
     }
 
-    const transaction: Transaction = {
-      id: Date.now(),
-      memberName: newTransaction.memberName,
-      amount: parseFloat(newTransaction.amount),
-      date: new Date().toISOString().split('T')[0],
-      description: newTransaction.description || "No description provided",
-      status: "Pending"
-    };
-
-    setTransactions(prev => [transaction, ...prev]);
-    setNewTransaction({ memberName: "", amount: "", description: "" });
-    setShowAddTransaction(false);
-    
-    toast({
-      title: "Transaction Added",
-      description: `New transaction for ${transaction.memberName} has been recorded.`,
-    });
+    if (service) {
+      // Add transaction to the global transaction context
+      addTransaction({
+        date: new Date().toISOString().split('T')[0],
+        description: newTransaction.description || "No description provided",
+        account: "Service Revenue",
+        type: "Credit",
+        amount: `₱${parseFloat(newTransaction.amount).toLocaleString('en-PH', { minimumFractionDigits: 2 })}`,
+        status: "Pending",
+        memberName: newTransaction.memberName,
+        serviceId: service.id,
+        serviceName: service.name
+      });
+      
+      setNewTransaction({ memberName: "", amount: "", description: "" });
+      setShowAddTransaction(false);
+      
+      toast({
+        title: "Transaction Added",
+        description: `New transaction for ${newTransaction.memberName} has been recorded.`,
+      });
+    }
   };
 
   const totalAmount = transactions

@@ -10,7 +10,7 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
 interface Service {
-  id: number;
+  id: string;
   name: string;
   category: string;
   status: "Active" | "Draft";
@@ -19,7 +19,7 @@ interface Service {
 }
 
 interface Transaction {
-  id: number;
+  id: string;
   memberName: string;
   amount: number;
   date: string;

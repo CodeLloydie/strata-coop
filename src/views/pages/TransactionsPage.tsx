@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CreditCard, Plus, Search, Filter, Download, Eye } from "lucide-react";
+import { useTransactions } from "@/contexts/TransactionContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,44 +10,7 @@ import { AddTransactionModal } from "@/views/components/Transactions/AddTransact
 
 export function TransactionsPage() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const transactions = [
-    { 
-      id: "TXN-001", 
-      date: "2024-12-26", 
-      description: "Member Deposit - Juan Dela Cruz", 
-      account: "Savings Account", 
-      type: "Credit", 
-      amount: "₱5,000.00",
-      status: "Completed"
-    },
-    { 
-      id: "TXN-002", 
-      date: "2024-12-26", 
-      description: "Office Supplies Purchase", 
-      account: "Office Expenses", 
-      type: "Debit", 
-      amount: "₱2,500.00",
-      status: "Completed"
-    },
-    { 
-      id: "TXN-003", 
-      date: "2024-12-25", 
-      description: "Loan Interest Payment", 
-      account: "Interest Income", 
-      type: "Credit", 
-      amount: "₱1,200.00",
-      status: "Pending"
-    },
-    { 
-      id: "TXN-004", 
-      date: "2024-12-25", 
-      description: "Member Withdrawal - Maria Santos", 
-      account: "Savings Account", 
-      type: "Debit", 
-      amount: "₱3,000.00",
-      status: "Completed"
-    },
-  ];
+  const { transactions } = useTransactions();
 
   const getStatusColor = (status: string) => {
     return status === "Completed" ? "default" : status === "Pending" ? "secondary" : "destructive";

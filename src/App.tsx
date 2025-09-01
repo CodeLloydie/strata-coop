@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { TransactionProvider } from "@/contexts/TransactionContext";
 import { CooperativeLayout } from "./components/CooperativeLayout";
 import { Dashboard } from "./pages/Dashboard";
 import { MembersPage } from "./views/pages/MembersPage";
@@ -27,10 +28,11 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
+    <TransactionProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
         <Routes>
           <Route path="/dashboard" element={
             <CooperativeLayout>
@@ -112,6 +114,7 @@ const App = () => (
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
+    </TransactionProvider>
   </QueryClientProvider>
 );
 

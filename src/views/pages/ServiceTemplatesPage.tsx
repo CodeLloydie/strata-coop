@@ -9,7 +9,7 @@ import { ServiceTransactionsModal } from "@/views/components/ServiceTemplates/Se
 import { useToast } from "@/hooks/use-toast";
 
 interface Service {
-  id: number;
+  id: string;
   name: string;
   category: string;
   status: "Active" | "Draft";
@@ -23,16 +23,16 @@ export function ServiceTemplatesPage() {
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [isTransactionsModalOpen, setIsTransactionsModalOpen] = useState(false);
   const [services, setServices] = useState<Service[]>([
-    { id: 1, name: "Personal Loan", category: "Loan", status: "Active", usage: 234, description: "Individual lending service" },
-    { id: 2, name: "Rice Milling", category: "Milling", status: "Active", usage: 156, description: "Rice processing service" },
-    { id: 3, name: "Grain Storage", category: "Storage", status: "Draft", usage: 0, description: "Long-term grain storage facility" },
-    { id: 4, name: "Business Loan", category: "Loan", status: "Active", usage: 87, description: "Commercial lending service" },
+    { id: "1", name: "Personal Loan", category: "Loan", status: "Active", usage: 234, description: "Individual lending service" },
+    { id: "2", name: "Rice Milling", category: "Milling", status: "Active", usage: 156, description: "Rice processing service" },
+    { id: "3", name: "Grain Storage", category: "Storage", status: "Draft", usage: 0, description: "Long-term grain storage facility" },
+    { id: "4", name: "Business Loan", category: "Loan", status: "Active", usage: 87, description: "Commercial lending service" },
   ]);
 
   const handleAddService = (newService: Omit<Service, 'id' | 'usage'>) => {
     const service: Service = {
       ...newService,
-      id: Date.now(),
+      id: `service-${Date.now()}`,
       usage: 0
     };
     setServices(prev => [...prev, service]);

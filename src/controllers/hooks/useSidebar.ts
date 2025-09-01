@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { SidebarItem, SidebarState } from "@/models";
 import { 
   LayoutDashboard, 
@@ -80,6 +80,7 @@ import {
 
 export function useSidebar() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [openGroups, setOpenGroups] = useState<string[]>(["Members & Roles", "Financial Management"]);
 
@@ -102,8 +103,9 @@ export function useSidebar() {
   };
 
   const handleLogout = () => {
-    // Handle logout logic here
-    console.log("Logout clicked");
+    // Clear any session data if needed
+    // For now, just redirect to welcome page
+    navigate("/");
   };
 
   return {
